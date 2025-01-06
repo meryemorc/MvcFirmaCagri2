@@ -19,12 +19,18 @@ namespace MvcFirmaCagri.Controllers
         
         public ActionResult AktifCagrilar()
         {
-            var cagrilar = db.TblCagrilar.Where(x => x.Durum == true && x.CagrıFirma == 4 ).ToList();
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+
+            var cagrilar = db.TblCagrilar.Where(x => x.Durum == true && x.CagrıFirma == id ).ToList();
             return View(cagrilar);
         }
         public ActionResult PasifCagrilar()
         {
-            var cagrilar = db.TblCagrilar.Where(x => x.Durum == false && x.CagrıFirma == 4).ToList();
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+
+            var cagrilar = db.TblCagrilar.Where(x => x.Durum == false && x.CagrıFirma == id).ToList();
             return View(cagrilar);
         }
         [HttpGet]
@@ -35,9 +41,12 @@ namespace MvcFirmaCagri.Controllers
         [HttpPost]
         public ActionResult YeniCagri(TblCagrilar p)
         {
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+
             p.Durum = true;
             p.Tarih = DateTime.Parse(DateTime.Now.ToShortDateString());
-            p.CagrıFirma = 4;
+            p.CagrıFirma = id;
             db.TblCagrilar.Add(p);
             db.SaveChanges();
             return RedirectToAction("AktifCagrilar");
@@ -59,6 +68,37 @@ namespace MvcFirmaCagri.Controllers
             cagri.Aciklama = p.Aciklama;
             db.SaveChanges();
             return RedirectToAction("AktifCagrilar");
+        }
+        [HttpGet]
+        public ActionResult ProfilDuzenle()
+        {
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+
+            var profil=db.TblFirmalar.Where(x => x.ID == id).FirstOrDefault();
+            return View(profil);
+        }
+        public ActionResult AnaSayfa()
+        {
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+            var toplamcagri=db.TblCagrilar.Where(x => x.CagrıFirma == id).Count();
+            var aktifcagri = db.TblCagrilar.Where(x => x.CagrıFirma == id && x.Durum==true).Count();
+            var pasifcagri = db.TblCagrilar.Where(x => x.CagrıFirma == id && x.Durum==false).Count();
+            var yetkili = db.TblFirmalar.Where(x=>x.ID == id).Select(y => y.Yetkili).FirstOrDefault();
+            var sektör = db.TblFirmalar.Where(x => x.ID == id).Select(y => y.Sektor).FirstOrDefault();
+            ViewBag.c1 = toplamcagri;
+            ViewBag.c2 = aktifcagri;
+            ViewBag.c3 = pasifcagri;
+            ViewBag.c4 = yetkili;
+            ViewBag.c5 = sektör;
+            return View();
+        }
+        public PartialViewResult Partial1()
+        {
+            var mail = (string)Session["Mail"];
+           var mesajlar = db.TblMesajlar.Where(x => x.Alici == mail).ToList();
+            return PartialView(mesajlar);
         }
     }
 }
