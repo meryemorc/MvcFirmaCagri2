@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using MvcFirmaCagri.Models.Entity;
+using System.Web.Security;
 
 namespace MvcFirmaCagri.Controllers
 {
@@ -87,18 +89,46 @@ namespace MvcFirmaCagri.Controllers
             var pasifcagri = db.TblCagrilar.Where(x => x.CagrıFirma == id && x.Durum==false).Count();
             var yetkili = db.TblFirmalar.Where(x=>x.ID == id).Select(y => y.Yetkili).FirstOrDefault();
             var sektör = db.TblFirmalar.Where(x => x.ID == id).Select(y => y.Sektor).FirstOrDefault();
+            var firmaadi=db.TblFirmalar.Where(x => x.ID == id).Select(y => y.Ad).FirstOrDefault();
+            var firmagorsel = db.TblFirmalar.Where(x => x.ID == id).Select(y => y.Gorsel).FirstOrDefault();
             ViewBag.c1 = toplamcagri;
             ViewBag.c2 = aktifcagri;
             ViewBag.c3 = pasifcagri;
             ViewBag.c4 = yetkili;
             ViewBag.c5 = sektör;
+            ViewBag.c6 = firmaadi;
+            ViewBag.c7 = firmagorsel;
             return View();
         }
         public PartialViewResult Partial1()
         {
+            //true okunmamıs
+
             var mail = (string)Session["Mail"];
-           var mesajlar = db.TblMesajlar.Where(x => x.Alici == mail).ToList();
+            var id = db.TblFirmalar.Where(x => x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+            var mesajlar = db.TblMesajlar.Where(x => x.Alici == id && x.Durum==true).ToList();
+            var mesajsayisi=db.TblMesajlar.Where(x => x.Alici == id && x.Durum == true).Count();
+            ViewBag.m1 = mesajsayisi;
             return PartialView(mesajlar);
+        }
+        public PartialViewResult Partial2()
+        {
+            var mail = (string)Session["Mail"];
+            var id = db.TblFirmalar.Where(x=>x.Mail == mail).Select(y => y.ID).FirstOrDefault();
+            var cagrilar=db.TblCagrilar.Where(x => x.CagrıFirma == id).ToList();
+            var cagrilar2=db.TblCagrilar.Count();
+            ViewBag.m2 = cagrilar2;
+            return PartialView(cagrilar);
+        }
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index","Login");
+        }
+        public ActionResult Partial3()
+        {
+            return PartialView();
         }
     }
 }

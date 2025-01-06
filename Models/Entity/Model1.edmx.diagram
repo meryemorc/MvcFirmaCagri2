@@ -20,6 +20,8 @@
         <AssociationConnector Association="DbisTakipModel.FK_TblGorevler_TblPersonel" ManuallyRouted="false" />
         <AssociationConnector Association="DbisTakipModel.FK_TblGorevler_TblPersonel1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="DbisTakipModel.TblMesajlar" Width="1.5" PointX="7.375" PointY="7.75" />
+        <AssociationConnector Association="DbisTakipModel.FK_TblMesajlar_TblFirmalar" />
+        <AssociationConnector Association="DbisTakipModel.FK_TblMesajlar_TblFirmalar1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

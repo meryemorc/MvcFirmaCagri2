@@ -55,6 +55,7 @@
           <Property Name="ilce" Type="nvarchar" MaxLength="30" />
           <Property Name="il" Type="nvarchar" MaxLength="20" />
           <Property Name="Adres" Type="nvarchar" MaxLength="200" />
+          <Property Name="Gorsel" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="TblGorevDetaylar">
           <Key>
@@ -82,8 +83,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Gonderen" Type="nvarchar" MaxLength="50" />
-          <Property Name="Alici" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gonderen" Type="int" />
+          <Property Name="Alici" Type="int" />
           <Property Name="Konu" Type="nvarchar" MaxLength="20" />
           <Property Name="Mesaj" Type="nvarchar(max)" />
           <Property Name="Tarih" Type="date" />
@@ -162,6 +163,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TblMesajlar_TblFirmalar">
+          <End Role="TblFirmalar" Type="Self.TblFirmalar" Multiplicity="0..1" />
+          <End Role="TblMesajlar" Type="Self.TblMesajlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblFirmalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblMesajlar">
+              <PropertyRef Name="Gonderen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblMesajlar_TblFirmalar1">
+          <End Role="TblFirmalar" Type="Self.TblFirmalar" Multiplicity="0..1" />
+          <End Role="TblMesajlar" Type="Self.TblMesajlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblFirmalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblMesajlar">
+              <PropertyRef Name="Alici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TblPersonel_TblDepartmanlar">
           <End Role="TblDepartmanlar" Type="Self.TblDepartmanlar" Multiplicity="0..1" />
           <End Role="TblPersonel" Type="Self.TblPersonel" Multiplicity="*" />
@@ -203,6 +228,14 @@
           <AssociationSet Name="FK_TblGorevler_TblPersonel1" Association="Self.FK_TblGorevler_TblPersonel1">
             <End Role="TblPersonel" EntitySet="TblPersonel" />
             <End Role="TblGorevler" EntitySet="TblGorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblMesajlar_TblFirmalar" Association="Self.FK_TblMesajlar_TblFirmalar">
+            <End Role="TblFirmalar" EntitySet="TblFirmalar" />
+            <End Role="TblMesajlar" EntitySet="TblMesajlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblMesajlar_TblFirmalar1" Association="Self.FK_TblMesajlar_TblFirmalar1">
+            <End Role="TblFirmalar" EntitySet="TblFirmalar" />
+            <End Role="TblMesajlar" EntitySet="TblMesajlar" />
           </AssociationSet>
           <AssociationSet Name="FK_TblPersonel_TblDepartmanlar" Association="Self.FK_TblPersonel_TblDepartmanlar">
             <End Role="TblDepartmanlar" EntitySet="TblDepartmanlar" />
@@ -268,6 +301,9 @@
           <Property Name="il" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Adres" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblCagrilar" Relationship="Self.FK_TblCagrilar_TblFirmalar" FromRole="TblFirmalar" ToRole="TblCagrilar" />
+          <Property Name="Gorsel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblMesajlar" Relationship="DbisTakipModel.FK_TblMesajlar_TblFirmalar" FromRole="TblFirmalar" ToRole="TblMesajlar" />
+          <NavigationProperty Name="TblMesajlar1" Relationship="DbisTakipModel.FK_TblMesajlar_TblFirmalar1" FromRole="TblFirmalar" ToRole="TblMesajlar" />
         </EntityType>
         <EntityType Name="TblGorevDetaylar">
           <Key>
@@ -416,19 +452,53 @@
             <End Role="TblGorevler" EntitySet="TblGorevler" />
           </AssociationSet>
           <EntitySet Name="TblMesajlar" EntityType="DbisTakipModel.TblMesajlar" />
+          <AssociationSet Name="FK_TblMesajlar_TblFirmalar" Association="DbisTakipModel.FK_TblMesajlar_TblFirmalar">
+            <End Role="TblFirmalar" EntitySet="TblFirmalar" />
+            <End Role="TblMesajlar" EntitySet="TblMesajlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblMesajlar_TblFirmalar1" Association="DbisTakipModel.FK_TblMesajlar_TblFirmalar1">
+            <End Role="TblFirmalar" EntitySet="TblFirmalar" />
+            <End Role="TblMesajlar" EntitySet="TblMesajlar" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="TblMesajlar">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Gonderen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Alici" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gonderen" Type="Int32" />
+          <Property Name="Alici" Type="Int32" />
           <Property Name="Konu" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Mesaj" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Tarih" Type="DateTime" Precision="0" />
           <Property Name="Durum" Type="Boolean" />
+          <NavigationProperty Name="TblFirmalar" Relationship="DbisTakipModel.FK_TblMesajlar_TblFirmalar" FromRole="TblMesajlar" ToRole="TblFirmalar" />
+          <NavigationProperty Name="TblFirmalar1" Relationship="DbisTakipModel.FK_TblMesajlar_TblFirmalar1" FromRole="TblMesajlar" ToRole="TblFirmalar" />
         </EntityType>
+        <Association Name="FK_TblMesajlar_TblFirmalar">
+          <End Type="DbisTakipModel.TblFirmalar" Role="TblFirmalar" Multiplicity="0..1" />
+          <End Type="DbisTakipModel.TblMesajlar" Role="TblMesajlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblFirmalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblMesajlar">
+              <PropertyRef Name="Gonderen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblMesajlar_TblFirmalar1">
+          <End Type="DbisTakipModel.TblFirmalar" Role="TblFirmalar" Multiplicity="0..1" />
+          <End Type="DbisTakipModel.TblMesajlar" Role="TblMesajlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblFirmalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblMesajlar">
+              <PropertyRef Name="Alici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -478,6 +548,7 @@
           <EntitySetMapping Name="TblFirmalar">
             <EntityTypeMapping TypeName="DbisTakipModel.TblFirmalar">
               <MappingFragment StoreEntitySet="TblFirmalar">
+                <ScalarProperty Name="Gorsel" ColumnName="Gorsel" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
                 <ScalarProperty Name="Yetkili" ColumnName="Yetkili" />
