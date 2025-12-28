@@ -17,7 +17,7 @@ namespace MvcFirmaCagri.Controllers
         {
             return View();
         }
-        DbisTakipEntities db = new DbisTakipEntities();
+        DbisTakipEntities1 db = new DbisTakipEntities1();
         
         public ActionResult AktifCagrilar()
         {

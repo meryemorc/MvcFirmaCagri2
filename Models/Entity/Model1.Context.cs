@@ -13,10 +13,10 @@ namespace MvcFirmaCagri.Models.Entity
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DbisTakipEntities : DbContext
+    public partial class DbisTakipEntities1 : DbContext
     {
-        public DbisTakipEntities()
-            : base("name=DbisTakipEntities")
+        public DbisTakipEntities1()
+            : base("name=DbisTakipEntities1")
         {
         }
     
@@ -32,7 +32,7 @@ namespace MvcFirmaCagri.Models.Entity
         public virtual DbSet<TblFirmalar> TblFirmalar { get; set; }
         public virtual DbSet<TblGorevDetaylar> TblGorevDetaylar { get; set; }
         public virtual DbSet<TblGorevler> TblGorevler { get; set; }
-        public virtual DbSet<TblPersonel> TblPersonel { get; set; }
         public virtual DbSet<TblMesajlar> TblMesajlar { get; set; }
+        public virtual DbSet<TblPersonel> TblPersonel { get; set; }
     }
 }

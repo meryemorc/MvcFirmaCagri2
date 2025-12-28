@@ -40,6 +40,12 @@
                                 <h3>İş Takip Paneli</h3>
                                 <p class="mb-4">Çağrı oluşturmak, çağrılarınızı takip etmek vb. işlemler için lütfen oturum açın.</p>
                             </div>
+
+                            @if (ViewBag.Hata != null)
+                            {
+                                <div class="alert alert-danger">@ViewBag.Hata</div>
+                            }
+
                             <form method="post">
                                 <div class="form-group first">
                                     <label for="username">Kullanıcı Adı</label>

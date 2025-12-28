@@ -17,6 +17,7 @@ namespace MvcFirmaCagri.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblPersonel()
         {
+            this.TblCagrilar = new HashSet<TblCagrilar>();
             this.TblGorevler = new HashSet<TblGorevler>();
             this.TblGorevler1 = new HashSet<TblGorevler>();
         }
@@ -26,10 +27,12 @@ namespace MvcFirmaCagri.Models.Entity
         public string Soyad { get; set; }
         public string Mail { get; set; }
         public string Telefon { get; set; }
-        public string Gorsel { get; set; }
         public Nullable<int> Departman { get; set; }
         public Nullable<bool> Durum { get; set; }
+        public string Sifre { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TblCagrilar> TblCagrilar { get; set; }
         public virtual TblDepartmanlar TblDepartmanlar { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblGorevler> TblGorevler { get; set; }
