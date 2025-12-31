@@ -6,6 +6,14 @@
 }
 
 
+@if (TempData["AIHata"] != null)
+{
+    <div style="background-color: #ffcccc; padding: 15px; margin-bottom: 20px; border: 2px solid red; border-radius: 5px;">
+        <h3 style="color: red;">⚠️ AI HATASI:</h3>
+        <p style="font-size: 14px; color: #333;">@TempData["AIHata"]</p>
+    </div>
+}
+
 <table class="table table-bordered">
     <tr>
         <th>ID</th>
@@ -21,7 +29,7 @@
             <td>@x.Konu</td>
             <td>@x.Tarih</td>
             <td><a href="/Default/CagriGetir/@x.ID" class="btn btn-success">Düzenle</a></td>
-            <td><a href="/Default/CagriDetay/@x.ID/" class="btn btn-info">Detaylar</td>
+            <td><a href="/Default/CagriDetay/@x.ID/" class="btn btn-info">Detaylar</a></td>
         </tr>
     }
 </table>

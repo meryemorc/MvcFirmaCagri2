@@ -26,6 +26,9 @@ namespace MvcFirmaCagri.Models.Entity
         public string Aciklama { get; set; }
         public Nullable<bool> Durum { get; set; }
         public Nullable<System.DateTime> Tarih { get; set; }
+        public string Ozet { get; set; }
+        public string RaporDosyasi { get; set; }
+        public Nullable<decimal> TamamlanmaSuresi { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblGorevDetaylar> TblGorevDetaylar { get; set; }

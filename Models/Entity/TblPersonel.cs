@@ -30,6 +30,11 @@ namespace MvcFirmaCagri.Models.Entity
         public Nullable<int> Departman { get; set; }
         public Nullable<bool> Durum { get; set; }
         public string Sifre { get; set; }
+        public string Pozisyon { get; set; }
+        public string UzmanlikAlani { get; set; }
+        public Nullable<int> ToplamGorev { get; set; }
+        public Nullable<decimal> BasariOrani { get; set; }
+        public Nullable<decimal> OrtalamaGun { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblCagrilar> TblCagrilar { get; set; }
